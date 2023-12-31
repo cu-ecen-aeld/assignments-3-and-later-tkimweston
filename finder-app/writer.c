@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
 	// Check 2 arguments were passed
 	if (argc < 3) {
 		syslog(LOG_ERR, "Invalid Number of arguments: %d", argc);
+		closelog();
 		exit(1);
 	}
 	
@@ -26,8 +27,12 @@ int main(int argc, char *argv[]) {
 	f = fopen(filename, "w");
 	if (f == NULL) {
 		syslog(LOG_ERR, "Cannot open file: %s", filename);
+		closelog();
+		exit(1);
 	}
 
 	fprintf(f, "%s\n", text);
 	fclose(f);
+	closelog();
+	exit(0);
 }
