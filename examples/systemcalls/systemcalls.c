@@ -107,6 +107,7 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
 	if (fd < 0) { 
 		perror("open"); abort(); 
 	}
+	fflush(stdout);
 	switch (pid = fork()) {
 	  case -1: perror("fork"); abort();
 	  case 0:
