@@ -16,8 +16,10 @@ bool do_system(const char *cmd)
  *   and return a boolean true if the system() call completed with success
  *   or false() if it returned a failure
 */
+    int rc;
+    rc = system(cmd);
 
-    return true;
+    return (rc == 0) ? true : false;
 }
 
 /**
@@ -40,6 +42,7 @@ bool do_exec(int count, ...)
     va_start(args, count);
     char * command[count+1];
     int i;
+    int pid;
     for(i=0; i<count; i++)
     {
         command[i] = va_arg(args, char *);
@@ -58,6 +61,13 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */
+    pid = fork();
+    if (pid == 0) {
+	    // child
+			execv(command[0], command);
+    } else {
+			exit(0);	
+    }
 
     va_end(args);
 
@@ -74,7 +84,8 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
     va_list args;
     va_start(args, count);
     char * command[count+1];
-    int i;
+    int i, fd;
+    int pid;
     for(i=0; i<count; i++)
     {
         command[i] = va_arg(args, char *);
@@ -92,6 +103,23 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
  *   The rest of the behaviour is same as do_exec()
  *
 */
+    fd = open(outputfile, O_WRONLY|O_TRUNC|O_CREAT, 0644);
+	if (fd < 0) { 
+		perror("open"); abort(); 
+	}
+	switch (pid = fork()) {
+	  case -1: perror("fork"); abort();
+	  case 0:
+	    if (dup2(fd, 1) < 0) { perror("dup2"); abort(); }
+	    close(fd);
+	    execvp(command[0], command); 
+		perror("execvp"); 
+		abort();
+	  default:
+	    close(fd);
+		exit(0);
+	    /* do whatever the parent wants to do. */
+	}
 
     va_end(args);
 
