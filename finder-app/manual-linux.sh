@@ -35,15 +35,15 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     git checkout ${KERNEL_VERSION}
 
     # TODO: Add your kernel build steps here
-#    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} mrproper
-#    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}  defconfig
-#    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -j2
-#    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} modules
-#    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} dtbs
+    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} mrproper
+    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}  defconfig
+    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} -j2
+    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} modules
+    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} dtbs
 
-#    cd linux-stable
-#    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} INSTALL_PATH=${OUTDIR}/rootfs install
-#    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} INSTALL_MOD_PATH=${OUTDIR}/rootfs modules-install
+    cd linux-stable
+    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} INSTALL_PATH=${OUTDIR}/rootfs install
+    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} INSTALL_MOD_PATH=${OUTDIR}/rootfs modules-install
 fi
 
 echo "Adding the Image in outdir"
