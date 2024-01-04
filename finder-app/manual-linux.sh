@@ -37,10 +37,11 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     # TODO: Add your kernel build steps here
     make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} mrproper
     make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} defconfig
-    make -j4 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} all
+    make -j4 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} all 
     make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} modules
     make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} dtbs
 
+    #cd linux-stable
     make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} INSTALL_PATH=${OUTDIR}/rootfs install
     make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} INSTALL_MOD_PATH=${OUTDIR}/rootfs modules-install
 fi
@@ -86,11 +87,11 @@ ${CROSS_COMPILE}readelf -a bin/busybox | grep "program interpreter"
 ${CROSS_COMPILE}readelf -a bin/busybox | grep "Shared library"
 
 # TODO: Add library dependencies to rootfs
-SYSROOT=`${CROSS_COMPILE}gcc -print-sysroot`
+SYSROOT=`aarch64-none-linux-gnu-gcc -print-sysroot`
 cp ${SYSROOT}/lib/ld-linux-aarch64.so.1 ${OUTDIR}/rootfs/lib
 cp ${SYSROOT}/lib64/libm.so.6 ${OUTDIR}/rootfs/lib64
-cp ${SYSROOT}/libc/lib64/libresolv.so.2 ${OUTDIR}/rootfs/lib64
-cp ${SYSROOT}/libc/lib64/libc.so.6 ${OUTDIR}/rootfs/lib64
+cp ${SYSROOT}/lib64/libresolv.so.2 ${OUTDIR}/rootfs/lib64
+cp ${SYSROOT}/lib64/libc.so.6 ${OUTDIR}/rootfs/lib64
 
 # TODO: Make device nodes
 cd ${OUTDIR}/rootfs
@@ -98,7 +99,7 @@ sudo mknod -m 666 dev/null c 1 3
 sudo mknod -m 666 dev/console c 1 5
 
 # TODO: Clean and build the writer utility
-cd ~/embedded/finder-app
+cd /home/embedded/finder-app
 make clean
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 
@@ -107,7 +108,7 @@ make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 cp -r . ${OUTDIR}/rootfs/home
 
 # TODO: Chown the root directory
-chown -r root:root ${OUTDIR}/rootfs
+chown -R root:root ${OUTDIR}/rootfs
 
 # TODO: Create initramfs.cpio.gz
 cd ${OUTDIR}/rootfs
