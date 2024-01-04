@@ -106,7 +106,8 @@ make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 # TODO: Copy the finder related scripts and executables to the /home directory
 # on the target rootfs
 mkdir ${OUTDIR}/rootfs/home/conf
-cp -r . ${OUTDIR}/rootfs/home
+cp conf/* ${OUTDIR}/rootfs/home/conf
+cp *.sh writer writer.c ${OUTDIR}/rootfs/home
 
 # TODO: Chown the root directory
 chown -R root:root ${OUTDIR}/rootfs
