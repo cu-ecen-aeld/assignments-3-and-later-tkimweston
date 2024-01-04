@@ -6,6 +6,7 @@ set -e
 set -u
 
 OUTDIR=/tmp/aeld
+CURDIR=`pwd`
 KERNEL_REPO=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 KERNEL_VERSION=v5.1.10
 BUSYBOX_VERSION=1_33_1
@@ -99,7 +100,7 @@ sudo mknod -m 666 dev/null c 1 3
 sudo mknod -m 666 dev/console c 1 5
 
 # TODO: Clean and build the writer utility
-cd /home/embedded/finder-app
+cd ${CURDIR}
 make clean
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 
