@@ -46,9 +46,6 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} INSTALL_MOD_PATH=${OUTDIR}/rootfs modules-install
 fi
 
-echo "Adding the Image in outdir"
-cp ${OUTDIR}/linux-stable/arch/arm64/boot/Image ${OUTDIR}
-
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
 if [ -d "${OUTDIR}/rootfs" ]
@@ -102,6 +99,9 @@ sudo mknod -m 666 dev/console c 1 5
 cd /home/embedded/finder-app
 make clean
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
+
+echo "Adding the Image in outdir"
+cp ${OUTDIR}/linux-stable/arch/arm64/boot/Image ${OUTDIR}
 
 # TODO: Copy the finder related scripts and executables to the /home directory
 # on the target rootfs
