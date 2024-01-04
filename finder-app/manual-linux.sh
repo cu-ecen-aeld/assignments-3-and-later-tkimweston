@@ -46,7 +46,7 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
 fi
 
 echo "Adding the Image in outdir"
-cp ${OUTDIR}/linux-stable/arch/arm64/boot/Image ${OUTDIR}
+cp ${OUTDIR}/linux-stable/arch/arm64/boot/Image ${OUTDIR}/rootfs
 
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
