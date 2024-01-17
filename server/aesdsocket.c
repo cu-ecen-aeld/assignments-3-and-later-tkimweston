@@ -106,6 +106,11 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
+    if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int)) < 0) {
+        perror("Error setting SO_REUSEADDR on  socket");
+        exit(EXIT_FAILURE);
+    }
+
     // Configure server address
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
