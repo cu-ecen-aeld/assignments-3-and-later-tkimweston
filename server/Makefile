@@ -1,12 +1,13 @@
-CC = gcc
-CROSS_COMPILE ?=
+#CC = gcc
+#CROSS_COMPILE ?=
 CFLAGS = -Wall
 
-ifeq ($(CROSS_COMPILE),)
-    COMPILER = $(CC)
-else
-    COMPILER = $(CROSS_COMPILE)gcc
-endif
+#ifeq ($(CROSS_COMPILE),)
+#    COMPILER = $(CC)
+#else
+#    COMPILER = $(CROSS_COMPILE)gcc
+#endif
+COMPILER = $(CROSS_COMPILE)gcc
 
 all: aesdsocket
 
